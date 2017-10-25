@@ -69,5 +69,5 @@ class Student
 
   def self.students_below_12th_grade
     DB[:conn].execute("SELECT grade FROM students ORDER BY(grade) WHERE grade != '12'")
-    edn
+  end
 end
