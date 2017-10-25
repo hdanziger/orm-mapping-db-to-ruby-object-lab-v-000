@@ -73,6 +73,6 @@ class Student
 
   def self.first_X_students_in_grade_10(x)
       DB[:conn].execute("SELECT grade FROM students WHERE grade = '10' LIMIT #{x}")
-      first_student = Student.first_student_in_grade_10
+      first_student = self.first_student_in_grade_10
     end
 end
