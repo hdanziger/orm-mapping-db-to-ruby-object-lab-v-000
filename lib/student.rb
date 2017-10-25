@@ -55,7 +55,8 @@ class Student
     )
     SQL
 
-    DB[:conn].execute(sql)
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
   end
 
   def self.drop_table
@@ -64,19 +65,32 @@ class Student
   end
 
   def self.count_all_students_in_grade_9
-    DB[:conn].execute("SELECT grade FROM students WHERE grade = '9'")
+    sql <<-SQL
+    SELECT grade 
+    FROM students 
+    WHERE grade = '9'
+    SQL
+    
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
   end
 
   def self.students_below_12th_grade
-    DB[:conn].execute("SELECT grade FROM students WHERE grade < '12'")
+    sql = <<-SQL
+    SELECT grade 
+    FROM students 
+    WHERE grade < '12'
+    SQL
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
   end
 
-  def self.first_X_students_in_grade_10(x)
+  def self.first_X_students_in_grade_10(number)
       sql = <<-SQL
       SELECT grade
       FROM students
       WHERE grade = '10'
-      LIMIT x
+      LIMIT ?
       SQL
       DB[:conn].execute(sql)
     end
